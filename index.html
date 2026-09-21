@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DEMORA — Esports</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: #080808;
+        color: #f4f2ed;
+        font-family: Inter, Arial, sans-serif;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      em {
+        font-style: normal;
+        color: #e9ff3f;
+      }
+      .nav {
+        position: fixed;
+        z-index: 10;
+        top: 0;
+        width: 100%;
+        height: 74px;
+        padding: 0 5vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #ffffff18;
+        background: #08080866;
+        backdrop-filter: blur(16px);
+      }
+      .logo {
+        font-weight: 900;
+        letter-spacing: 0.16em;
+      }
+      .logo b {
+        display: inline-block;
+        width: 7px;
+        height: 20px;
+        background: #e9ff3f;
+        transform: skew(-16deg);
+        margin-right: 9px;
+        vertical-align: middle;
+      }
+      .links {
+        display: flex;
+        gap: 30px;
+        text-transform: uppercase;
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        color: #aaa;
+      }
+      .links a:hover {
+        color: #e9ff3f;
+      }
+      .navbtn {
+        border: 1px solid #ffffff33;
+        padding: 12px 15px;
+        font-size: 9px;
+        letter-spacing: 0.13em;
+        font-weight: 800;
+      }
+      .navbtn:hover {
+        border-color: #e9ff3f;
+        color: #e9ff3f;
+      }
+      .hero {
+        min-height: 100vh;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+        background: #111;
+      }
+      .hero:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, #050505ee 0%, #05050577 52%, #05050520),
+          linear-gradient(0deg, #050505 0%, transparent 50%),
+          url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=2200&q=85")
+            center/cover;
+      }
+      .hero:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(#fff0 96%, #e9ff3f 96%);
+        opacity: 0.08;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 8vw 11vh;
+        max-width: 900px;
+      }
+      .kicker {
+        font-size: 9px;
+        color: #aaa;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+      .kicker i {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: #e9ff3f;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+      .hero h1 {
+        font: 900 clamp(82px, 13vw, 180px)/0.78 "Barlow Condensed";
+        letter-spacing: -0.05em;
+        margin: 24px 0;
+        text-transform: uppercase;
+      }
+      .hero p {
+        max-width: 490px;
+        color: #bbb;
+        line-height: 1.7;
+        font-size: 13px;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+      }
+      .btn {
+        padding: 15px 18px;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .primary {
+        background: #f4f2ed;
+        color: #080808;
+      }
+      .primary:hover {
+        background: #e9ff3f;
+      }
+      .secondary {
+        border: 1px solid #ffffff40;
+      }
+      .secondary:hover {
+        border-color: #e9ff3f;
+        color: #e9ff3f;
+      }
+      .hero-foot {
+        position: absolute;
+        z-index: 2;
+        bottom: 24px;
+        left: 5vw;
+        right: 5vw;
+        display: flex;
+        justify-content: space-between;
+        color: #777;
+        font-size: 8px;
+        letter-spacing: 0.16em;
+      }
+      .ticker {
+        overflow: hidden;
+        border-block: 1px solid #222;
+        padding: 17px 0;
+        white-space: nowrap;
+      }
+      .ticker div {
+        display: inline-block;
+        animation: t 25s linear infinite;
+        font: 700 21px "Barlow Condensed";
+        letter-spacing: 0.08em;
+      }
+      .ticker span {
+        margin: 0 28px;
+      }
+      .ticker b {
+        color: #e9ff3f;
+      }
+      @keyframes t {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      section {
+        padding: 120px 8vw;
+      }
+      .match {
+        padding: 52px 8vw;
+        border-bottom: 1px solid #222;
+        display: grid;
+        grid-template-columns: 130px 1fr 130px;
+        align-items: center;
+        gap: 30px;
+      }
+      .match-main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8vw;
+        text-align: center;
+      }
+      .badge {
+        font: 800 65px "Barlow Condensed";
+      }
+      .teamname {
+        font-size: 8px;
+        color: #888;
+        letter-spacing: 0.18em;
+      }
+      .matchcenter {
+        text-align: center;
+      }
+      .upcoming {
+        font-size: 8px;
+        color: #e9ff3f;
+        letter-spacing: 0.2em;
+      }
+      .versus {
+        font: 800 45px "Barlow Condensed";
+        margin: 7px;
+      }
+      .matchcenter small {
+        display: block;
+        color: #777;
+        font-size: 8px;
+        letter-spacing: 0.12em;
+      }
+      .matchcenter strong {
+        display: block;
+        font-size: 10px;
+        margin-top: 7px;
+      }
+      .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: 50px;
+      }
+      .head h2 {
+        font: 800 clamp(65px, 9vw, 130px)/0.8 "Barlow Condensed";
+        letter-spacing: -0.045em;
+        margin: 15px 0 0;
+      }
+      .head p {
+        color: #777;
+        font-size: 11px;
+        line-height: 1.7;
+        text-align: right;
+      }
+      .hero-card {
+        height: 610px;
+        position: relative;
+        overflow: hidden;
+        background: url("https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1800&q=85")
+          center/cover;
+      }
+      .hero-card:after,
+      .card:after,
+      .player:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(0deg, #000d, transparent 60%);
+      }
+      .card-copy {
+        position: absolute;
+        z-index: 2;
+        left: 42px;
+        bottom: 38px;
+      }
+      .card-copy h3 {
+        font: 800 78px/0.8 "Barlow Condensed";
+        margin: 10px 0;
+      }
+      .card-copy span {
+        font-size: 9px;
+        letter-spacing: 0.17em;
+        color: #bbb;
+      }
+      .teamgrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .card {
+        height: 330px;
+        position: relative;
+        overflow: hidden;
+      }
+      .card.one {
+        background: url("https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80")
+          center/cover;
+      }
+      .card.two {
+        background: url("https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=1200&q=80")
+          center/cover;
+      }
+      .card-copy.small {
+        left: 25px;
+        bottom: 25px;
+      }
+      .card-copy.small h3 {
+        font-size: 45px;
+      }
+      .manifesto {
+        background: #e9ff3f;
+        color: #080808;
+        min-height: 650px;
+        position: relative;
+        overflow: hidden;
+      }
+      .manifesto h2 {
+        font: 800 clamp(70px, 10vw, 140px)/0.78 "Barlow Condensed";
+        letter-spacing: -0.05em;
+        margin: 20px 0;
+      }
+      .manifesto em {
+        color: #080808;
+        -webkit-text-stroke: 1px #080808;
+      }
+      .manifesto p {
+        max-width: 500px;
+        line-height: 1.8;
+        font-size: 13px;
+      }
+      .ghost {
+        position: absolute;
+        right: -2vw;
+        bottom: -35px;
+        font: 900 27vw/0.6 "Barlow Condensed";
+        opacity: 0.07;
+      }
+      .players {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .player {
+        height: 510px;
+        position: relative;
+        overflow: hidden;
+        background: #151515;
+      }
+      .player:nth-child(1) {
+        background: url("https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?auto=format&fit=crop&w=900&q=80")
+          center/cover;
+      }
+      .player:nth-child(2) {
+        background: url("https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=900&q=80")
+          center/cover;
+      }
+      .player:nth-child(3) {
+        background: url("https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80")
+          center/cover;
+      }
+      .player:nth-child(4) {
+        background: url("https://images.unsplash.com/photo-1592840496694-26d035b52b48?auto=format&fit=crop&w=900&q=80")
+          center/cover;
+      }
+      .playerinfo {
+        position: absolute;
+        z-index: 2;
+        left: 17px;
+        right: 17px;
+        bottom: 18px;
+      }
+      .playerinfo small {
+        font-size: 7px;
+        color: #aaa;
+        letter-spacing: 0.15em;
+      }
+      .playerinfo h3 {
+        font: 800 40px "Barlow Condensed";
+        margin: 4px 0;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-block: 1px solid #222;
+      }
+      .stat {
+        padding: 55px 8vw;
+        border-right: 1px solid #222;
+      }
+      .stat:last-child {
+        border: 0;
+      }
+      .stat strong {
+        font: 800 90px/0.7 "Barlow Condensed";
+      }
+      .stat span {
+        display: block;
+        margin-top: 22px;
+        color: #777;
+        font-size: 8px;
+        letter-spacing: 0.16em;
+      }
+      .news {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 45px;
+      }
+      .featured {
+        height: 480px;
+        background: url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=80")
+          center/cover;
+        position: relative;
+      }
+      .featured:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(0deg, #000e, transparent 60%);
+      }
+      .featuretext {
+        position: absolute;
+        z-index: 2;
+        bottom: 30px;
+        left: 30px;
+      }
+      .featuretext h3 {
+        font: 800 55px/0.9 "Barlow Condensed";
+        margin: 10px 0;
+      }
+      .list article {
+        display: grid;
+        grid-template-columns: 115px 1fr;
+        gap: 16px;
+        padding-bottom: 22px;
+        margin-bottom: 22px;
+        border-bottom: 1px solid #242424;
+      }
+      .thumb {
+        height: 100px;
+        background: url("https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=500&q=80")
+          center/cover;
+      }
+      .list h4 {
+        font: 700 25px/1 "Barlow Condensed";
+        margin: 8px 0;
+      }
+      .list small,
+      .featuretext small {
+        font-size: 7px;
+        color: #888;
+        letter-spacing: 0.14em;
+      }
+      .partners {
+        background: #101010;
+      }
+      .partnerhead {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: 60px;
+      }
+      .partnerhead p {
+        max-width: 330px;
+        color: #777;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .partnergrid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid #292929;
+        border-left: 1px solid #292929;
+      }
+      .partnergrid div {
+        height: 145px;
+        border-right: 1px solid #292929;
+        border-bottom: 1px solid #292929;
+        display: grid;
+        place-items: center;
+        font: 700 27px "Barlow Condensed";
+        color: #666;
+      }
+      .partnergrid div:last-child {
+        color: #e9ff3f;
+      }
+      .contact {
+        min-height: 650px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        background:
+          linear-gradient(90deg, #000e, #0005),
+          url("https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=2200&q=85")
+            center/cover;
+      }
+      .contact h2 {
+        font: 800 clamp(90px, 13vw, 180px)/0.75 "Barlow Condensed";
+        margin: 20px 0;
+      }
+      .contact p {
+        color: #aaa;
+        font-size: 12px;
+      }
+      .contact .btn {
+        display: inline-block;
+        margin-top: 25px;
+      }
+      footer {
+        padding: 50px 5vw 25px;
+        background: #050505;
+      }
+      .foot {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 70px;
+      }
+      .social {
+        display: flex;
+        gap: 25px;
+        font-size: 8px;
+        letter-spacing: 0.15em;
+        color: #777;
+      }
+      .bottom {
+        border-top: 1px solid #222;
+        padding-top: 18px;
+        color: #4d4d49;
+        font-size: 7px;
+        letter-spacing: 0.15em;
+        display: flex;
+        justify-content: space-between;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(25px);
+        transition: 0.8s;
+      }
+      .show {
+        opacity: 1;
+        transform: none;
+      }
+      @media (max-width: 850px) {
+        .links,
+        .navbtn {
+          display: none;
+        }
+        .match {
+          grid-template-columns: 1fr;
+        }
+        .match-main {
+          gap: 9vw;
+        }
+        .hero-card {
+          height: 500px;
+        }
+        .players {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stats {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stat {
+          padding: 40px 5vw;
+        }
+        .stat:nth-child(2) {
+          border: 0;
+        }
+        .news {
+          grid-template-columns: 1fr;
+        }
+        .partnerhead {
+          display: block;
+        }
+        .partnerhead p {
+          margin-top: 20px;
+        }
+      }
+      @media (max-width: 560px) {
+        section {
+          padding: 85px 5vw;
+        }
+        .hero-content {
+          padding: 0 5vw 90px;
+        }
+        .hero h1 {
+          font-size: 82px;
+        }
+        .actions {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .hero-foot {
+          display: none;
+        }
+        .head {
+          display: block;
+        }
+        .head p {
+          text-align: left;
+        }
+        .hero-card {
+          height: 450px;
+        }
+        .card-copy {
+          left: 24px;
+        }
+        .card-copy h3 {
+          font-size: 58px;
+        }
+        .teamgrid {
+          grid-template-columns: 1fr;
+        }
+        .players {
+          gap: 7px;
+        }
+        .player {
+          height: 340px;
+        }
+        .playerinfo h3 {
+          font-size: 32px;
+        }
+        .stat strong {
+          font-size: 62px;
+        }
+        .featured {
+          height: 340px;
+        }
+        .featuretext h3 {
+          font-size: 43px;
+        }
+        .partnergrid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .partnergrid div {
+          height: 100px;
+        }
+        .bottom {
+          display: block;
+          line-height: 2;
+        }
+        .contact h2 {
+          font-size: 92px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <a class="logo" href="#"><b></b>DEMORA</a>
+      <nav class="links">
+        <a href="#teams">Teams</a><a href="#players">Players</a
+        ><a href="#matches">Matches</a><a href="#news">News</a
+        ><a href="#partners">Partners</a>
+      </nav>
+      <a class="navbtn" href="#contact">PARTNER WITH US ↗</a>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <div class="kicker">
+            <i></i>Independent esports organization · 2026
+          </div>
+          <h1>PLAY<br /><em>BEYOND</em><br />LIMITS.</h1>
+          <p>
+            Built for competitors who refuse to play small. Demora brings teams,
+            talent and culture together under one relentless identity.
+          </p>
+          <div class="actions">
+            <a class="btn primary" href="#teams">EXPLORE TEAMS ↘</a
+            ><a class="btn secondary" href="#matches">NEXT MATCH →</a>
+          </div>
+        </div>
+        <div class="hero-foot">
+          <span>SCROLL TO EXPLORE</span><span>01 / 08</span>
+        </div>
+      </section>
+      <div class="ticker">
+        <div>
+          <span>COMPETE WITH PURPOSE</span><b>✦</b><span>BUILD THE CULTURE</span
+          ><b>✦</b><span>OWN THE MOMENT</span><b>✦</b
+          ><span>COMPETE WITH PURPOSE</span><b>✦</b
+          ><span>BUILD THE CULTURE</span><b>✦</b>
+        </div>
+      </div>
+      <section class="match" id="matches">
+        <div class="kicker">NEXT MATCH</div>
+        <div class="match-main">
+          <div>
+            <div class="badge">D</div>
+            <div class="teamname">DEMORA</div>
+          </div>
+          <div class="matchcenter">
+            <div class="upcoming">UPCOMING</div>
+            <div class="versus">VS</div>
+            <small>VALORANT · CHALLENGER SERIES</small
+            ><strong>24 SEP 2026 · 19:30 IST</strong>
+          </div>
+          <div>
+            <div class="badge">Ø</div>
+            <div class="teamname">OPPONENT</div>
+          </div>
+        </div>
+        <a class="kicker" href="#contact">MATCH CENTER ↗</a>
+      </section>
+      <section id="teams">
+        <div class="head reveal">
+          <div>
+            <div class="kicker">01 — COMPETITIVE DIVISIONS</div>
+            <h2>OUR <em>TEAMS.</em></h2>
+          </div>
+          <p>Different games.<br />One identity.</p>
+        </div>
+        <div class="hero-card reveal">
+          <div class="card-copy">
+            <span>01 / VALORANT</span>
+            <h3>DEMORA<br /><em>VALORANT</em></h3>
+            <span>PRECISION · DISCIPLINE · PRESSURE</span>
+          </div>
+        </div>
+        <div class="teamgrid">
+          <div class="card one reveal">
+            <div class="card-copy small">
+              <span>02 / BGMI</span>
+              <h3>DEMORA <em>BGMI</em></h3>
+            </div>
+          </div>
+          <div class="card two reveal">
+            <div class="card-copy small">
+              <span>03 / FREE FIRE</span>
+              <h3>DEMORA <em>FREE FIRE</em></h3>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="manifesto">
+        <div class="kicker">THE DEMORA STANDARD</div>
+        <div class="reveal">
+          <h2>NOT HERE<br />TO <em>PARTICIPATE.</em></h2>
+          <p>
+            We build competitive teams with the mindset, structure and ambition
+            to define their own era. Demora is more than a roster — it is a
+            platform for the next generation of competitors.
+          </p>
+        </div>
+        <div class="ghost">DEMORA</div>
+      </section>
+      <section id="players">
+        <div class="head reveal">
+          <div>
+            <div class="kicker">02 — THE ROSTER</div>
+            <h2>MEET THE <em>PLAYERS.</em></h2>
+          </div>
+          <a class="kicker" href="#contact">FULL ROSTER ↗</a>
+        </div>
+        <div class="players">
+          <article class="player reveal">
+            <div class="playerinfo">
+              <small>DUELIST · VALORANT</small>
+              <h3>VEX</h3>
+            </div>
+          </article>
+          <article class="player reveal">
+            <div class="playerinfo">
+              <small>INITIATOR · VALORANT</small>
+              <h3>RAZE</h3>
+            </div>
+          </article>
+          <article class="player reveal">
+            <div class="playerinfo">
+              <small>IGL · VALORANT</small>
+              <h3>NYX</h3>
+            </div>
+          </article>
+          <article class="player reveal">
+            <div class="playerinfo">
+              <small>CONTROLLER · VALORANT</small>
+              <h3>VOLT</h3>
+            </div>
+          </article>
+        </div>
+        <div class="kicker" style="margin-top: 14px; color: #555">
+          DEMO CONTENT — REPLACE WITH DEMORA'S VERIFIED ROSTER
+        </div>
+      </section>
+      <div class="stats">
+        <div class="stat reveal">
+          <strong>12</strong><span>TOURNAMENT WINS</span>
+        </div>
+        <div class="stat reveal">
+          <strong>38</strong><span>TOP 3 FINISHES</span>
+        </div>
+        <div class="stat reveal">
+          <strong>24</strong><span>ACTIVE PLAYERS</span>
+        </div>
+        <div class="stat reveal">
+          <strong>03</strong><span>COMPETITIVE TITLES</span>
+        </div>
+      </div>
+      <section id="news">
+        <div class="head reveal">
+          <div>
+            <div class="kicker">03 — FROM DEMORA</div>
+            <h2>LATEST <em>NEWS.</em></h2>
+          </div>
+          <a class="kicker" href="#contact">ALL STORIES ↗</a>
+        </div>
+        <div class="news">
+          <article class="featured reveal">
+            <div class="featuretext">
+              <small>TEAM UPDATE · 18 SEP 2026</small>
+              <h3>THE NEXT ERA<br />STARTS NOW.</h3>
+              <a class="kicker" href="#contact">READ STORY ↗</a>
+            </div>
+          </article>
+          <div class="list">
+            <article class="reveal">
+              <div class="thumb"></div>
+              <div>
+                <small>COMPETITION · 15 SEP</small>
+                <h4>Demora enters the new competitive season.</h4>
+                <a class="kicker" href="#contact">READ ↗</a>
+              </div>
+            </article>
+            <article class="reveal">
+              <div class="thumb"></div>
+              <div>
+                <small>ROSTER · 09 SEP</small>
+                <h4>Introducing the players behind the badge.</h4>
+                <a class="kicker" href="#contact">READ ↗</a>
+              </div>
+            </article>
+            <article class="reveal">
+              <div class="thumb"></div>
+              <div>
+                <small>CULTURE · 02 SEP</small>
+                <h4>Why we built Demora for the next generation.</h4>
+                <a class="kicker" href="#contact">READ ↗</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="partners" id="partners">
+        <div class="kicker">04 — PARTNERSHIPS</div>
+        <div class="partnerhead reveal">
+          <h2>POWERED BY<br /><em>AMBITION.</em></h2>
+          <p>
+            We partner with brands that want to shape the future of competitive
+            gaming.
+          </p>
+        </div>
+        <div class="partnergrid reveal">
+          <div>VANTA</div>
+          <div>NEXUS</div>
+          <div>ARC</div>
+          <div>MONUMENT</div>
+          <div>01 /</div>
+          <div>YOUR BRAND</div>
+        </div>
+        <a
+          class="partner-cta"
+          href="#contact"
+          style="
+            display: flex;
+            justify-content: space-between;
+            padding: 27px 0;
+            border-bottom: 1px solid #333;
+          "
+          ><span>BECOME A DEMORA PARTNER</span><b>↗</b></a
+        >
+      </section>
+      <section class="contact" id="contact">
+        <div class="reveal">
+          <div class="kicker">05 — LET'S BUILD</div>
+          <h2>MAKE YOUR<br /><em>MOVE.</em></h2>
+          <p>
+            Partnerships · Media · Tournament enquiries · Player recruitment
+          </p>
+          <a class="btn primary" href="mailto:hello@demoraesports.com"
+            >CONTACT DEMORA ↗</a
+          >
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="foot">
+        <a class="logo" href="#"><b></b>DEMORA</a>
+        <div class="social">
+          <a href="#">INSTAGRAM ↗</a><a href="#">YOUTUBE ↗</a
+          ><a href="#">X ↗</a>
+        </div>
+      </div>
+      <div class="bottom">
+        <span>© 2026 DEMORA ESPORTS</span
+        ><span>DEMO WEBSITE · PLACEHOLDER CONTENT</span
+        ><span>INDIA / GLOBAL</span>
+      </div>
+    </footer>
+    <script>
+      const obs = new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("show");
+          }),
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".reveal").forEach((x) => obs.observe(x));
+    </script>
+  </body>
+</html>
